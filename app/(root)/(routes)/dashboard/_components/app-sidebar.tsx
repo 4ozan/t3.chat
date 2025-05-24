@@ -1,4 +1,7 @@
-import {Home, Inbox, Settings } from "lucide-react"
+'use client'
+
+import {Home, Inbox, Settings, PlusCircle } from "lucide-react"
+import { useRouter } from 'next/navigation'
 
 import {
   Sidebar,
@@ -14,16 +17,6 @@ import {
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Chats",
-    url: "#",
-    icon: Inbox,
-  },
-  {
     title: "Settings",
     url: "#",
     icon: Settings,
@@ -31,13 +24,30 @@ const items = [
 ]
 
 export function AppSidebar() {
+  const router = useRouter()
+  
+  const handleNewChat = () => {
+    // Clear any existing chat state and refresh the page
+    localStorage.removeItem('currentChat')
+    router.refresh()
+  }
+
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>Taiba</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild onClick={handleNewChat}>
+                  <button className="flex items-center gap-2 w-full">
+                    <PlusCircle size={18} />
+                    <span>New Chat</span>
+                  </button>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
