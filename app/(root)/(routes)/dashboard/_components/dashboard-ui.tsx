@@ -111,9 +111,9 @@ export default function DashboardPage() {
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm, remarkBreaks]}
                     components={{
-                      code({ node, inline, className, children, ...props }) {
+                      code({ node,  className, children, ...props }) {
                         const match = /language-(\w+)/.exec(className || '')
-                        return !inline && match ? (
+                        return match ? (
                           <SyntaxHighlighter
                             style={vscDarkPlus}
                             language={match[1]}
