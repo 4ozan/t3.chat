@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from "@/components/ui/button"
 import {Home, Inbox, Settings, PlusCircle } from "lucide-react"
 import { useRouter } from 'next/navigation'
 
@@ -14,7 +15,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-// Menu items.
 const items = [
   {
     title: "Settings",
@@ -27,9 +27,12 @@ export function AppSidebar() {
   const router = useRouter()
   
   const handleNewChat = () => {
-    // Clear any existing chat state and refresh the page
     localStorage.removeItem('currentChat')
     router.refresh()
+  }
+
+  const handleLogin = () => {
+    router.push("/auth/login")
   }
 
   return (
@@ -39,11 +42,11 @@ export function AppSidebar() {
           <SidebarGroupLabel>Taiba</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
+              <SidebarMenuItem className="overflow-y-auto" >
                 <SidebarMenuButton asChild onClick={handleNewChat}>
-                  <button className="flex items-center gap-2 w-full">
+                  <button className="flex items-center gap-2 w-full" onClick={handleLogin}>
                     <PlusCircle size={18} />
-                    <span>New Chat</span>
+                    <span>Login</span>
                   </button>
                 </SidebarMenuButton>
               </SidebarMenuItem>

@@ -113,10 +113,7 @@ export default function Home() {
             </form>
             </Form>
             <h1 className='pt-4 space-x-1 text-gray-400'>
-               Already Have an Account?  
-               <Link className='text-black' href="/auth/signup">
-             Signup
-            </Link>
+               Accounted will be created if not exists  
             </h1> 
         </div>
       </div>
