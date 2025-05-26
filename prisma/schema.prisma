@@ -1,7 +1,6 @@
-
-generator client  {
-provider = "prisma-clientjs"
-output = "../app/generate/prisma"
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generate/prisma" // Explicitly define the output path
 }
 
 datasource db {
@@ -10,8 +9,8 @@ datasource db {
 }
 
 model User{
-    id Int @id @default(autoincrement())
-    name  String?
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
     email String @unique
     password String 
 }

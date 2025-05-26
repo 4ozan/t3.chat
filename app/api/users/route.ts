@@ -1,25 +1,31 @@
 import { NextResponse } from 'next/server'
-import  prisma from '@/lib/db'
+import prisma from '@/lib/db'
+
+
+interface CreateUserRequest{
+Email: string
+Password:string
+}
 
 export async function POST (req:Request){
     try{
-      const body = await  req.json()
-      const { fullname, Email, Password } = body
+      const body = await  req.json() as CreateUserRequest
+      const { Email, Password } = body
     
-      if (!fullname || !Email || !Password) {
+      if 
+      (!Email || !Password) {
         return new Response("Missing required fields", { status: 400 });
       }
 
-      const course = await prisma.course.create({
+      const users = await prisma.course.create({
         data: {
-            fullname,
             Email,
-            Password
+            Password,
         }
       })
-      return NextResponse.json(course)
+      return NextResponse.json(users)
     }catch(error){
-        console.log('COURSE_ERROR', error)
+        console.log('account error post', error)
         return new Response("An error occurred", {status:500})
     }
 }
