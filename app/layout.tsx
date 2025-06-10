@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 
 // Default metadata for the application
 export const metadata: Metadata = {
-  title: "Greeting title -T3 Chat",
-  description: "A modern dashboard experience built with Next.js and TailwindCSS.",
+  title: "T3 Chat clone for hackathon",
+  description: "a cheap alternative to chatgpt.",
 };
 
 export default function RootLayout({

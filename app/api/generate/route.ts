@@ -1,10 +1,10 @@
-import { generateGeminiResponse } from "@/lib/gemini";
+import { generateResponse } from "@/lib/together-ai";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    if (!process.env.GOOGLE_API_KEY) {
-      throw new Error("GOOGLE_API_KEY is not configured");
+    if (!process.env.TOGETHER_API_KEY) {
+      throw new Error("TOGETHER_API_KEY is not configured");
     }
 
     const { prompt } = await req.json();
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
       throw new Error("Prompt is required");
     }
 
-    const result = await generateGeminiResponse(prompt);
+    const result = await generateResponse(prompt);
 
     if (!result) {
       throw new Error("No response from API");

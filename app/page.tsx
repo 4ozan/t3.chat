@@ -1,9 +1,9 @@
 import React from 'react'
-import Landing from '@/components/Landing'
+import Dashboard from './(root)/(routes)/dashboard/_components/dashboard-ui'
 const page = () => {
   return (
     <div>
-      <Landing />
+  <Dashboard />
     </div>
   )
 }
