@@ -17,13 +17,14 @@ export async function POST (req:Request){
         return new Response("Missing required fields", { status: 400 });
       }
 
-      const users = await prisma.course.create({
+      const user = await prisma.user.create({
         data: {
-            Email,
-            Password,
+          email: Email,
+          password: Password,
         }
-      })
-      return NextResponse.json(users)
+      });
+
+      return NextResponse.json(user);
     }catch(error){
         console.log('account error post', error)
         return new Response("An error occurred", {status:500})

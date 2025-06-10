@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../app/generate/prisma" // Explicitly define the output path
 }
 
 datasource db {
@@ -13,5 +12,12 @@ model User{
     createdAt DateTime @default(now())
     email String @unique
     password String 
+}
+
+model Course {
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
+    Email String @unique
+    Password String
 }
 
