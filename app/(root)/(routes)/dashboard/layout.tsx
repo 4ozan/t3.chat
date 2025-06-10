@@ -15,18 +15,16 @@ export default function DashboardLayout({
 }: {children: React.ReactNode}) {
   return (
     <SidebarProvider>
-   <main className="flex">
-            <AppSidebar />
-            <div className="flex bg-[#F2E1F4]">
-              <SidebarTrigger />
-              {children}
-            </div>
-          </main>
+      <main className="flex h-screen w-full overflow-hidden">
+        <AppSidebar />
+        <div className="flex-1 overflow-auto">
+          <SidebarTrigger />
+          {children}
+        </div>
+      </main>
     </SidebarProvider>
-     
   );
 }
 
- 
-         
-     
+
+

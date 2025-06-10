@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Send, Copy } from "lucide-react"
+import { Send, Copy, Search, ChevronDown, Paperclip } from "lucide-react"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism"
 import remarkGfm from "remark-gfm"
@@ -88,11 +88,11 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen w-screen flex flex-col items-center bg-gradient-to-r from-purple-50 to-pink-50 overflow-hidden">
-      <div className=" flex rounded-tl-2xl rounded-tr-2xl rounded-br-2xln">
+    <div className="flex flex-col h-screen bg-[#FAF4FA]">
+      <div className="flex-1 overflow-auto p-6 rounded-2xl border-[#F9F2F9]">
         <div className="mx-auto max-w-4xl">
           {isClient && response && (
-            <div className="bg-white rounded-lg border p-6 shadow-sm">
+            <div className="rounded-lg border p-6 shadow-sm">
               {isStreaming ? (
                 <div className="flex items-center gap-2 text-gray-500">
                   <div className="animate-pulse">Generating response</div>
@@ -148,36 +148,56 @@ export default function DashboardPage() {
           )}
 
           {!response && (
-            <div className="text-center text-gray-500 mt-20 pl-3">
+            <div className="text-center text-gray-500 mt-20">
               <p className="text-xl mb-2">Good day, Fawuzan</p>
             </div>
           )}
         </div>
       </div>
-         <div className="flex justify-center items-center">
-         <div className="flex justify-center w-full">
-  <Textarea 
-    className="w-full flex justify-center items-center"
-    placeholder="Type your message here... (Ctrl+Enter to send)"
-    value={prompt}
-    onChange={(e) => setPrompt(e.target.value)}
-    onKeyDown={handleKeyPress}
-    disabled={loading}
-  />
-  <Button
-    onClick={handleSubmit}
-    disabled={loading || !prompt.trim()}
-    className="absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 h-auto text-sm flex items-center gap-1"
-  >
-    {loading ? (
-      <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
-    ) : (
-      <Send size={16} />
-    )}
-  </Button>
-</div>
-</div>
-</div>
-  
+
+      {/* Chat Input Area */}
+      <div className="p-4 bg-[#FAF4FA]">
+        <div className="w-full max-w-2xl mx-auto">
+          <div className="bg-white rounded-3xl shadow-lg p-2 border-2 border-pink-100" style={{ boxShadow: '0 0 20px rgba(236, 72, 153, 0.2)' }}>
+            <div className="flex items-center">
+              <textarea
+                className="w-full bg-transparent border-none focus:ring-0 text-gray-700 placeholder-gray-400 pl-4 py-3 text-lg resize-none"
+                placeholder="Type your message here... "
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                onKeyDown={handleKeyPress}
+                disabled={loading}
+                rows={1}
+              />
+              <button 
+                onClick={handleSubmit}
+                disabled={loading || !prompt.trim()}
+                className="bg-pink-400 hover:bg-pink-500 text-white rounded-full p-3 transition-colors disabled:bg-pink-200 disabled:cursor-not-allowed flex items-center justify-center h-12 w-12"
+              >
+                {loading ? (
+                  <div className="animate-spin h-6 w-6 border-2 border-white border-t-transparent rounded-full" />
+                ) : (
+                  <Send className="h-6 w-6" />
+                )}
+              </button>
+            </div>
+
+            <div className="flex items-center mt-2 px-2">
+              <button className="flex items-center text-pink-600 font-semibold text-sm bg-pink-100 rounded-full px-4 py-1.5 hover:bg-pink-200 transition-colors">
+                <span>Gemini 2.5 Flash</span>
+                <ChevronDown className="ml-2 h-4 w-4" />
+              </button>
+              <button className="ml-4 flex items-center text-gray-600 font-semibold text-sm bg-gray-100 rounded-full px-4 py-1.5 hover:bg-gray-200 transition-colors">
+                <Search className="h-4 w-4" />
+                <span className="ml-2">Search</span>
+              </button>
+              <button className="ml-2 p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors">
+                <Paperclip className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

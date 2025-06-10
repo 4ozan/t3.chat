@@ -2,9 +2,8 @@
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { proximaVara } from "./fonts";
 import "./globals.css";
-
-
 
 // Font configuration
 const geistSans = Geist({
@@ -21,7 +20,7 @@ const geistMono = Geist_Mono({
 
 // Default metadata for the application
 export const metadata: Metadata = {
-  title: "Dashboard | MyApp",
+  title: "Greeting title -T3 Chat",
   description: "A modern dashboard experience built with Next.js and TailwindCSS.",
 };
 
@@ -32,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-       <body>{children}</body>
+      <body className="font-proxima-vara text-[#501854]">{children}</body>
     </html>
   );
 }

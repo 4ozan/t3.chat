@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import {Home, Inbox, Settings, PlusCircle } from "lucide-react"
+import { Search } from "lucide-react"
 import { useRouter } from 'next/navigation'
 
 import {
@@ -15,12 +15,18 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-const items = [
+const items = [  {
+    title: "Search",
+    url: "#",
+    icon: Search,
+    className: "flex items-center gap-2 px-4 py-2 text-[#501854] hover:bg-[#E4D5E6] rounded-md"
+  },
   {
     title: "New Chat",
     url: "#",
-    icon: Settings,
-  },
+    noIcon:true,
+    className: "flex justify-center px-4 py-2 rounded-md bg-[#D76A9D] text-white font-medium shadow-md hover:bg-[#C25A8C] transition-all duration-150"
+  }
 ]
 
 export function AppSidebar() {
@@ -36,28 +42,22 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar  className=" bg-[#F2E1F4]">
-      <SidebarContent>
+    <Sidebar className="bg-[#F9DDFD] border-r">
+      <SidebarContent className="bg-[#F2E4F4] border-r">
         <SidebarGroup>
-          <SidebarGroupLabel>t3.chat</SidebarGroupLabel>
+          <SidebarGroupLabel className="p-2 text-xl text-[#CA0277]">T3.chat</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem className="overflow-y-auto" >
-                <SidebarMenuButton asChild onClick={handleNewChat}>
-                  <button className="flex items-center gap-2 w-full" onClick={handleLogin}>
-                    <PlusCircle size={18} />
-                    <span>Login</span>
-                  </button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
+                    <button 
+                      className={item.className}
+                      onClick={item.title === "New Chat" ? handleNewChat : undefined}
+                    >
+                      {!item.noIcon && item.icon && <item.icon className="h-4 w-4" />}
                       <span>{item.title}</span>
-                    </a>
+                    </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

@@ -1,27 +1,29 @@
-import { togetherai } from "@/lib/ai";
-import { generateText } from "ai";
+import { generateGeminiResponse } from "@/lib/gemini";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
+    if (!process.env.GOOGLE_API_KEY) {
+      throw new Error("GOOGLE_API_KEY is not configured");
+    }
+
     const { prompt } = await req.json();
+    
+    if (!prompt) {
+      throw new Error("Prompt is required");
+    }
 
-    const result = await generateText({
-      model: togetherai("mistralai/Mixtral-8x7B-Instruct-v0.1"),
-      prompt,
-      temperature: 0.7,
-      maxTokens: 1000,
-    });
+    const result = await generateGeminiResponse(prompt);
 
-    if (!result.text) {
+    if (!result) {
       throw new Error("No response from API");
     }
 
-    return NextResponse.json({ response: result.text });
+    return NextResponse.json({ response: result });
   } catch (error) {
     console.error("API error:", error);
     return NextResponse.json(
-      { error: "Something went wrong on the API" },
+      { error: error instanceof Error ? error.message : "Something went wrong on the API" },
       { status: 500 }
     );
   }
