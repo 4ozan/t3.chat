@@ -17,7 +17,7 @@ import {
 
 const items = [
   {
-    title: "Settings",
+    title: "New Chat",
     url: "#",
     icon: Settings,
   },
@@ -32,14 +32,14 @@ export function AppSidebar() {
   }
 
   const handleLogin = () => {
-    router.push("/auth/login")
+    router.push("/")
   }
 
   return (
-    <Sidebar>
+    <Sidebar  className=" bg-[#F2E1F4]">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Taiba</SidebarGroupLabel>
+          <SidebarGroupLabel>t3.chat</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem className="overflow-y-auto" >

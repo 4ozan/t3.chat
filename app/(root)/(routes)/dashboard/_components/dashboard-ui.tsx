@@ -88,12 +88,8 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-23e0 pl-10">
-      <div className="border-b bg-white p-4">
-        <h1 className="text-xl font-semibold text-gray-800">TAIBA</h1>
-      </div>
-
-      <div className="flex-1 overflow-y-auto p-4">
+    <div className="min-h-screen w-screen flex flex-col items-center bg-gradient-to-r from-purple-50 to-pink-50 overflow-hidden">
+      <div className=" flex rounded-tl-2xl rounded-tr-2xl rounded-br-2xln">
         <div className="mx-auto max-w-4xl">
           {isClient && response && (
             <div className="bg-white rounded-lg border p-6 shadow-sm">
@@ -153,17 +149,15 @@ export default function DashboardPage() {
 
           {!response && (
             <div className="text-center text-gray-500 mt-20 pl-3">
-              <p className="text-xl mb-2">Were Back, Fawuzan</p>
+              <p className="text-xl mb-2">Good day, Fawuzan</p>
             </div>
           )}
         </div>
       </div>
-
-      <div className="border-t bg-white p-4 mx-auto container px-4">
-        <div className="mx-auto max-w-4xl w-full">
-         <div className="relative w-full">
-  <Textarea
-    className="w-full min-h-[80px] max-h-[200px] resize-none border-gray-300 pr-20 focus:border-blue-500 focus:ring-blue-500"
+         <div className="flex justify-center items-center">
+         <div className="flex justify-center w-full">
+  <Textarea 
+    className="w-full flex justify-center items-center"
     placeholder="Type your message here... (Ctrl+Enter to send)"
     value={prompt}
     onChange={(e) => setPrompt(e.target.value)}
@@ -184,6 +178,6 @@ export default function DashboardPage() {
 </div>
 </div>
 </div>
-    </div>
+  
   )
 }

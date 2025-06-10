@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 export default function Landing() {
    const router =  useRouter()
     const nextStep = () => {
-     router.push('/auth/signup')
+     router.push('/auth/login')
     }
   return (
     <>

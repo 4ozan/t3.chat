@@ -17,7 +17,7 @@ export default function DashboardLayout({
     <SidebarProvider>
    <main className="flex">
             <AppSidebar />
-            <div className="flex-1">
+            <div className="flex bg-[#F2E1F4]">
               <SidebarTrigger />
               {children}
             </div>
