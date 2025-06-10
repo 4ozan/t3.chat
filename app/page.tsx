@@ -1,11 +1,6 @@
-import React from 'react'
-import Dashboard from './(root)/(routes)/dashboard/_components/dashboard-ui'
-const page = () => {
-  return (
-    <div>
-  <Dashboard />
-    </div>
-  )
-}
+import { redirect } from 'next/navigation'
 
-export default page
+export default function Page() {
+  // Redirect root path to dashboard
+  redirect('/dashboard')
+}
