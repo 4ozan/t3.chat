@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 if (!process.env.GOOGLE_API_KEY) {
-  throw new Error('GOOGLE_API_KEY is not configured');
+  throw new Error('GOOGLE_API_KEY environment variable is not configured. Please add it to your .env file or Vercel environment variables.');
 }
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
