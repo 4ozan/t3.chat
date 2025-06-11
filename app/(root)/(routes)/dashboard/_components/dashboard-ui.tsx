@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
+import { PromptSuggestion } from "@/components/ui/prompt-suggestion"
+import { ResponseStream } from "@/components/ui/response-stream"
 import { Send, Copy, Search, ChevronDown, Paperclip } from "lucide-react"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism"
@@ -15,8 +16,14 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(false)
   const [response, setResponse] = useState("")
   const [isStreaming, setIsStreaming] = useState(false)
-  const [isClient, setIsClient] = useState(false)
+  const [isClient, setIsClient] = useState(false)  
   const [copySuccess, setCopySuccess] = useState(false)
+  const [suggestions, setSuggestions] = useState<string[]>([
+    "How does AI work?",
+    "What is the meaning of life?",
+    "Tell me about quantum computing",
+    "Explain blockchain technology"
+  ])
 
   useEffect(() => {
     setIsClient(true)
@@ -86,28 +93,19 @@ export default function DashboardPage() {
       handleSubmit()
     }
   }
-
   return (
     <div className="flex flex-col h-screen bg-[#FAF4FA]">
       <div className="flex-1 overflow-auto p-6 rounded-2xl border-[#F9F2F9]">
         <div className="mx-auto max-w-4xl">
           {isClient && response && (
-            <div className="rounded-lg border p-6 shadow-sm">
-              {isStreaming ? (
-                <div className="flex items-center gap-2 text-gray-500">
-                  <div className="animate-pulse">Generating response</div>
-                  <div className="flex space-x-1">
-                    <div className="h-2 w-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <div className="h-2 w-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <div className="h-2 w-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
-                  </div>
-                </div>
+            <div className="rounded-lg border p-6 shadow-sm bg-white">              {isStreaming ? (
+                <ResponseStream textStream={response} />
               ) : (
                 <>
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm, remarkBreaks]}
                     components={{
-                      code({ node,  className, children, ...props }) {
+                      code({ node, className, children, ...props }) {
                         const match = /language-(\w+)/.exec(className || '')
                         return match ? (
                           <SyntaxHighlighter
@@ -146,55 +144,68 @@ export default function DashboardPage() {
               )}
             </div>
           )}
-
           {!response && (
-            <div className="text-center text-gray-500 mt-20">
-              <p className="text-xl mb-2">Good day, Fawuzan</p>
+            <div className="space-y-8">
+              <div className="text-center">
+                <h2 className="text-2xl font-semibold text-[#93268F] mb-2">How can I help you today?</h2>
+                <p className="text-gray-500">Choose a suggestion or type your own question</p>
+              </div>
+              <div className="grid grid-cols-2 gap-4">                {suggestions.map((suggestion, index) => (
+                  <PromptSuggestion
+                    key={index}
+                    onClick={() => {
+                      setPrompt(suggestion)
+                      handleSubmit()
+                    }}
+                  >
+                    {suggestion}
+                  </PromptSuggestion>
+                ))}
+              </div>
             </div>
           )}
         </div>
       </div>
-
+      
       {/* Chat Input Area */}
       <div className="p-4 bg-[#FAF4FA]">
-        <div className="w-full max-w-2xl mx-auto">
-          <div className="bg-white rounded-3xl shadow-lg p-2 border-2 border-pink-100" style={{ boxShadow: '0 0 20px rgba(236, 72, 153, 0.2)' }}>
-            <div className="flex items-center">
+        <div className="w-full max-w-3xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-sm p-3 flex items-center gap-3">            <div className="flex-1">
               <textarea
-                className="w-full bg-transparent border-none focus:ring-0 text-gray-700 placeholder-gray-400 pl-4 py-3 text-lg resize-none"
-                placeholder="Type your message here... "
                 value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
                 onKeyDown={handleKeyPress}
                 disabled={loading}
+                placeholder="Type your message here..."
+                className="w-full p-2 outline-none resize-none h-12 bg-transparent"
                 rows={1}
               />
-              <button 
-                onClick={handleSubmit}
-                disabled={loading || !prompt.trim()}
-                className="bg-pink-400 hover:bg-pink-500 text-white rounded-full p-3 transition-colors disabled:bg-pink-200 disabled:cursor-not-allowed flex items-center justify-center h-12 w-12"
-              >
-                {loading ? (
-                  <div className="animate-spin h-6 w-6 border-2 border-white border-t-transparent rounded-full" />
-                ) : (
-                  <Send className="h-6 w-6" />
-                )}
-              </button>
             </div>
+            <button 
+              onClick={handleSubmit}
+              disabled={loading || !prompt.trim()}
+              className="bg-[#AB4573] hover:bg-pink-500 text-white rounded-full p-3 transition-colors disabled:bg-pink-200 disabled:cursor-not-allowed flex items-center justify-center h-12 w-12"
+            >
+              {loading ? (
+                <div className="animate-spin h-6 w-6 border-2 border-white border-t-transparent rounded-full" />
+              ) : (
+                <Send className="h-6 w-6" />
+              )}
+            </button>
+          </div>
 
-            <div className="flex items-center mt-2 px-2">
-              <button className="flex items-center text-pink-600 font-semibold text-sm bg-pink-100 rounded-full px-4 py-1.5 hover:bg-pink-200 transition-colors">
-                <span>Gemini 2.5 Flash</span>
-                <ChevronDown className="ml-2 h-4 w-4" />
-              </button>
-              <button className="ml-4 flex items-center text-gray-600 font-semibold text-sm bg-gray-100 rounded-full px-4 py-1.5 hover:bg-gray-200 transition-colors">
-                <Search className="h-4 w-4" />
-                <span className="ml-2">Search</span>
-              </button>
-              <button className="ml-2 p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors">
-                <Paperclip className="h-4 w-4" />
-              </button>
-            </div>
+          <div className="flex items-center mt-2 px-2">
+            <button className="flex items-center text-pink-600 font-semibold text-sm bg-pink-100 rounded-full px-4 py-1.5 hover:bg-pink-200 transition-colors">
+              <span>Gemini 2.5 Flash</span>
+              <ChevronDown className="ml-2 h-4 w-4" />
+            </button>
+            <button className="ml-4 flex items-center text-gray-600 font-semibold text-sm bg-gray-100 rounded-full px-4 py-1.5 hover:bg-gray-200 transition-colors">
+              <Search className="h-4 w-4" />
+              <span className="ml-2">Search</span>
+            </button>
+            <button className="ml-2 p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors">
+              <Paperclip className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </div>
