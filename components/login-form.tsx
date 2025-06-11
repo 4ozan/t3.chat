@@ -22,8 +22,8 @@ export function LoginForm({
     
     try {
       // Here you would typically make your authentication request
-      // For now, we'll simulate a successful login by setting something in localStorage
-      localStorage.setItem('isAuthenticated', 'true')
+      // For now, we'll simulate a successful login by setting a cookie
+      document.cookie = 'isAuthenticated=true; path=/;'
       
       // Navigate to dashboard after successful login
       router.push('/dashboard')
